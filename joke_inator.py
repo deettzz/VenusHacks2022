@@ -1,6 +1,8 @@
 # data handling
 import os
+from matplotlib.ft2font import BOLD
 import pandas as pd
+from regex import E
 # model
 from sklearn import linear_model
 # cross-validation, training and splitting
@@ -10,6 +12,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
 # GUI
 import tkinter as tk
+
 
 # Path to prev dir contains this file
 dir = os.path.abspath(os.path.dirname(__file__))
@@ -80,30 +83,72 @@ print('Predicted Stock Index Price: \n', model.predict([[New_Interest_Rate, New_
 
 ## GUI
 root= tk.Tk()
-canvas1 = tk.Canvas(root, width = 500, height = 300)
+canvas1 = tk.Canvas(root, width = 600, height = 400)
+# root.resizable(False, False)
 canvas1.pack()
+
+# taken from stack overflow for rounded corners...
+def round_rectangle(x1, y1, x2, y2, radius=25, **kwargs):
+        
+    points = [x1+radius, y1,
+              x1+radius, y1,
+              x2-radius, y1,
+              x2-radius, y1,
+              x2, y1,
+              x2, y1+radius,
+              x2, y1+radius,
+              x2, y2-radius,
+              x2, y2-radius,
+              x2, y2,
+              x2-radius, y2,
+              x2-radius, y2,
+              x1+radius, y2,
+              x1+radius, y2,
+              x1, y2,
+              x1, y2-radius,
+              x1, y2-radius,
+              x1, y1+radius,
+              x1, y1+radius,
+              x1, y1]
+
+    return canvas1.create_polygon(points, **kwargs, smooth=True)
+
+rect = round_rectangle(200, 30, 400, 105, fill="#FFA1A1")
+
+
+img=tk.PhotoImage(file='testImage1.PNG')
+canvas1.create_image(495, 250, image = img)
+img2=tk.PhotoImage(file='testImage2.PNG')
+canvas1.create_image(125, 250, image = img2)
+
+root.title("Joke-inator")
+labelTitle = tk.Label(root, font=('Klee', 24), text='Joke-inator!')
+canvas1.create_window(300, 45, window=labelTitle)
+labelTitle = tk.Label(root, font=('Klee', 14), text="Subtitle")
+canvas1.create_window(300, 80, width=200, window=labelTitle)
+
 
 # Final equation of model
 # intercept
 print_intercept = ('Model Intercept: ', model.intercept_) # sklearn function to derive intercept
 interceptWindow = tk.Label(root, text=print_intercept, justify='center')
-canvas1.create_window(260, 220, window=interceptWindow)
+canvas1.create_window(300, 270, window=interceptWindow)
 # coefficients
 print_coefs = ('Coefficients: ', model.coef_) # sklearn function to derive intercept
 coefsWindow = tk.Label(root, text=print_coefs, justify='center')
-canvas1.create_window(260, 240, window=coefsWindow)
+canvas1.create_window(300, 290, window=coefsWindow)
 
 # Create entry boxes
 # First ind variable
-label1 = tk.Label(root, text='Type Interest Rate: ')
-canvas1.create_window(100, 100, window=label1)
+label1 = tk.Label(root, anchor=tk.E, font=('futura'), text='Type Interest Rate: ')
+canvas1.create_window(175, 130, width=200, window=label1)
 entry1 = tk.Entry(root) # create 1st entry box
-canvas1.create_window(270, 100, window=entry1)
+canvas1.create_window(370, 130, window=entry1)
 # Second ind variable
-label2 = tk.Label(root, text='Type Unemployment Rate: ')
-canvas1.create_window(120, 120, window=label2)
+label2 = tk.Label(root, anchor=tk.E, font=('futura'), text='Type Unemployment Rate: ')
+canvas1.create_window(175, 150, width=200, window=label2)
 entry2 = tk.Entry(root)  # create 2nd entry box
-canvas1.create_window(270, 120, window=entry2)
+canvas1.create_window(370, 150, window=entry2)
 
 
 def values():
@@ -116,10 +161,10 @@ def values():
 
     y_predicted = ('Predicted Stock Index Price: ', model.predict([[New_Interest_Rate, New_Unemployment_Rate]]))
     predicted_label = tk.Label(root, text=y_predicted, bg='orange')
-    canvas1.create_window(260, 280, window=predicted_label)
+    canvas1.create_window(300, 330, window=predicted_label)
 
 # button inputs datapoint to model and displays output
 model_output_button = tk.Button(root, text='Predict Stock Index Price', command=values,bg='orange')
-canvas1.create_window(270, 150, window=model_output_button)
+canvas1.create_window(300, 180, window=model_output_button)
 # Continue looping over script with GUI input
 root.mainloop()
