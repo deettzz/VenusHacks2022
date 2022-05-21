@@ -6,9 +6,12 @@ from sklearn import linear_model
 # cross-validation, training and splitting
 from sklearn.model_selection import KFold
 # measuring metrics
+import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
+# GUI
+import tkinter as tk
 
-# get path to prev dir which contains this file
+# Path to prev dir contains this file
 dir = os.path.abspath(os.path.dirname(__file__))
 data_file_address = os.path.join(dir, "Responses.csv")
 
@@ -18,10 +21,13 @@ data_file_address = os.path.join(dir, "Responses.csv")
 3. presence of numbers (0 = no presence, 1 = presence made the joke better)
 4. use of emoticons ( 0 = no emoticons, 1 = presence of emoticons made the joke better)"""
 
+## PARSING
+# Features, Input:
 charLengthInput = 0
 puncNumInput = 0
 numberPresenceInput = 0
 emoPresenceInput = 0
+# Output:
 funnyRating = 0
 
 #df = pd.read_csv(data_file_address)
@@ -41,7 +47,7 @@ Stock_Market = {
 df = pd.DataFrame(Stock_Market, columns=['Year', 'Month', 'Interest_Rate', 'Unemployment_Rate', 'Stock_Index_Price'])
 
 # Independent variables
-X = df[['Month','Interest_Rate']]
+X = df[['Interest_Rate', 'Unemployment_Rate']]
 # dependent variable
 y = df['Stock_Index_Price']
 
@@ -71,3 +77,49 @@ print(mse)
 New_Interest_Rate = 2.75
 New_Unemployment_Rate = 5.3
 print('Predicted Stock Index Price: \n', model.predict([[New_Interest_Rate, New_Unemployment_Rate]]))
+
+## GUI
+root= tk.Tk()
+canvas1 = tk.Canvas(root, width = 500, height = 300)
+canvas1.pack()
+
+# Final equation of model
+# intercept
+print_intercept = ('Model Intercept: ', model.intercept_) # sklearn function to derive intercept
+interceptWindow = tk.Label(root, text=print_intercept, justify='center')
+canvas1.create_window(260, 220, window=interceptWindow)
+# coefficients
+print_coefs = ('Coefficients: ', model.coef_) # sklearn function to derive intercept
+coefsWindow = tk.Label(root, text=print_coefs, justify='center')
+canvas1.create_window(260, 240, window=coefsWindow)
+
+# Create entry boxes
+# First ind variable
+label1 = tk.Label(root, text='Type Interest Rate: ')
+canvas1.create_window(100, 100, window=label1)
+entry1 = tk.Entry(root) # create 1st entry box
+canvas1.create_window(270, 100, window=entry1)
+# Second ind variable
+label2 = tk.Label(root, text='Type Unemployment Rate: ')
+canvas1.create_window(120, 120, window=label2)
+entry2 = tk.Entry(root)  # create 2nd entry box
+canvas1.create_window(270, 120, window=entry2)
+
+
+def values():
+    # first input variable from GUI
+    global New_Interest_Rate
+    New_Interest_Rate = float(entry1.get())
+    # 2nd input variable from GUI
+    global New_Unemployment_Rate
+    New_Unemployment_Rate = float(entry2.get())
+
+    y_predicted = ('Predicted Stock Index Price: ', model.predict([[New_Interest_Rate, New_Unemployment_Rate]]))
+    predicted_label = tk.Label(root, text=y_predicted, bg='orange')
+    canvas1.create_window(260, 280, window=predicted_label)
+
+# button inputs datapoint to model and displays output
+model_output_button = tk.Button(root, text='Predict Stock Index Price', command=values,bg='orange')
+canvas1.create_window(270, 150, window=model_output_button)
+# Continue looping over script with GUI input
+root.mainloop()
