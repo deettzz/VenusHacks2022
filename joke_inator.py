@@ -15,6 +15,11 @@ import tkinter as tk
 dir = os.path.abspath(os.path.dirname(__file__))
 data_file_address = os.path.join(dir, "Responses.csv")
 
+# open slang file for reading
+slangDir = os.path.abspath(os.path.dirname(__file__))
+slang_file_address = os.path.join(slangDir, "slang_dict.txt")
+slang_file = open(slang_file_address, 'r')
+
 """ FEATURES:
 1. length of characters (number)
 2. punctuation (number)
@@ -105,7 +110,6 @@ canvas1.create_window(120, 120, window=label2)
 entry2 = tk.Entry(root)  # create 2nd entry box
 canvas1.create_window(270, 120, window=entry2)
 
-
 def values():
     # first input variable from GUI
     global New_Interest_Rate
@@ -123,3 +127,32 @@ model_output_button = tk.Button(root, text='Predict Stock Index Price', command=
 canvas1.create_window(270, 150, window=model_output_button)
 # Continue looping over script with GUI input
 root.mainloop()
+
+# returns the number of characterss in the joke
+def getNumChars(joke):
+    return len(joke)
+
+# returns the number of punctuation characters in the joke
+def getNumPunc(joke):
+    puncList = ['!', '@', '#', '$', '%', '&', '(', ')', ':', ';', '"', ',', '.','?', '/'] 
+    numPunc
+    for char in joke:
+        if char in puncList:
+            numPunc += 1
+    return numPunc
+
+# returns True if the joke contains numbers, False otherwise
+def hasNums(joke):
+    for char in joke:
+        if char.isdigit():
+            return True
+    return False
+
+# returns True if the joke contains emoticons/slang from the slang_file, False otherwise
+def hasEmo(joke):
+    lines = slang_file.readlines()
+    for line in lines:
+        emoticon = line.split('`')[0]
+        if emoticon in joke:
+            return True
+    return False
