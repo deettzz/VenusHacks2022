@@ -2,10 +2,12 @@ Our List of Jokes (training and testing data):
 1. 420 69! 
 2. A picture of my GPA: 2.6!
 3. What kind of tea is hard to swallow? Reality.
-4. What is brown and sticky? A stick
-5. Boy: Do you wanna hear a joke? Girl: Not really. I am already looking at one.
+4. What is brown and sticky? A STICK
+5. Boy: Do you wanna hear a joke? Girl: Not really. I am already looking at 1.
 6. What did the fish say when he swam into a wall? Dam.
 7. Today, I asked my phone “Siri, why am I still single?” and it activated the front camera.
 8. My wife and I have reached the difficult decision that we do not want children. If anybody does, please just send me your contact details and we can drop them off tomorrow.
 9. ComPuteR ScIeNCe MaJOrs
 10. What came in the mail today? Deez Nuts!! GOTTTEEEEMMM!!!
+
+
