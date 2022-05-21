@@ -1,6 +1,4 @@
 1. length of characters (number)
 2. punctuation (number)
-3. ratio of capital characters / total characters (ratio)
-4. presence of numbers (0 = no presence, 1 = presence made the joke better)
-5. wordplay (0 = bad word play, 1 = word play made the joke better)
-6. external factors not listed (1)
+3. presence of numbers (0 = no presence, 1 = presence made the joke better)
+4. use of emoticons ( 0 = no emoticons, 1 = presence of emoticons made the joke better)
