@@ -121,29 +121,25 @@ canvas1.pack()
 background=tk.PhotoImage(file='gradient.PNG')
 canvas1.create_image(300, 200, image = background)
 
-rect = round_rectangle(200, 30, 400, 105, fill="#ecc1cb")
-
+rect = round_rectangle(100, 105, 500, 225, fill="#cda5df")
 
 img=tk.PhotoImage(file='testImage1.PNG')
 canvas1.create_image(495, 250, image = img)
 img2=tk.PhotoImage(file='testImage2.PNG')
 canvas1.create_image(125, 250, image = img2)
+titleArt=tk.PhotoImage(file='wordArt.PNG')
+titleArt=titleArt.subsample(2,2)
+canvas1.create_image(300, 55, image = titleArt)
 
 root.title("Joke-inator")
-canvas1.create_text(300, 45, fill="white", font=('Impact', 24), text='Joke-inator!')
-canvas1.create_text(300, 80, fill="white", font=('Impact', 14), text="Subtitle")
 
 
 # Final equation of model
 # intercept
 print_intercept = ('Model Intercept: ', model.intercept_) # sklearn function to derive intercept
-#interceptWindow = tk.Label(root, text=print_intercept, justify='center')
-#canvas1.create_window(300, 270, window=interceptWindow)
 canvas1.create_text(300, 270, fill="white", text=print_intercept, justify='center')
 # coefficients
 print_coefs = ('Coefficients: ', model.coef_) # sklearn function to derive intercept
-#coefsWindow = tk.Label(root, text=print_coefs, justify='center')
-#canvas1.create_window(300, 290, window=coefsWindow)
 canvas1.create_text(300, 290, fill="white", text=print_coefs, justify='center')
 
 # Create entry boxes
@@ -166,8 +162,6 @@ def values():
     New_Unemployment_Rate = float(entry2.get())
 
     y_predicted = ('Predicted Stock Index Price: ', model.predict([[New_Interest_Rate, New_Unemployment_Rate]]))
-    #predicted_label = tk.Label(root, text=y_predicted, bg='orange')
-    #canvas1.create_window(300, 330, window=predicted_label)
     canvas1.create_text(300,350, fill="white", text=y_predicted)
 
 # button inputs datapoint to model and displays output
