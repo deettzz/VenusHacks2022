@@ -166,7 +166,7 @@ canvas1.create_text(270,130, anchor=tk.E, width=200, fill="white", justify='righ
 entry1 = tk.Entry(root,bd=0) # create 1st entry box
 canvas1.create_window(370, 130, window=entry1)
 # Button inputs datapoint (joke and parsed input from joke) to model and displays output
-model_output_button = tk.Button(root, text='Predict Stock Index Price', bd=0,command=values)
+model_output_button = tk.Button(root, text='Get Funny Rating!', bd=0,command=values)
 canvas1.create_window(300, 200, window=model_output_button)
 # Continue looping over script with GUI input
 root.mainloop()
