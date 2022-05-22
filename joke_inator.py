@@ -93,10 +93,10 @@ def values():
     numberPresenceInput = hasNums(jokeInput)
     emoPresenceInput = hasNums(jokeInput)
     resultsBox = round_rectangle(130, 250, 470, 300, fill="#d9a5b1")
-    y_predicted = ('Predicted Funny Rating: ', model.predict([[charLengthInput, puncNumInput, numberPresenceInput, emoPresenceInput]]))
-    predicted_label = tk.Label(root, fg="white", font=('futura', 16), text=y_predicted, bg="#d9a5b1")
+    y_predicted = str(round(model.predict([[charLengthInput, puncNumInput, numberPresenceInput, emoPresenceInput]])[0], 4))
+    y_predicted = 'Funny Rating: '+y_predicted+'% Funny'
+    predicted_label = tk.Label(root, fg="white", font=('futura', 12), text=y_predicted, bg="#d9a5b1")
     canvas1.create_window(300, 275, window=predicted_label)
-    #canvas1.create_text(300,275, fill="white", font=('futura', 16), text=y_predicted)
 
 ## OPEN NECESSARY FILES
 # Path to prev dir contains this file
@@ -132,7 +132,7 @@ for train_index, test_index in kf.split(X):
 ## MODEL METRICS
 y_pred = model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
-print(y_test, y_pred)
+#print(y_test, y_pred)
 print('MSE OF MODEL:', mse)
 
 ## GUI
@@ -147,11 +147,6 @@ background=background.subsample(2,2)
 canvas1.create_image(300, 200, image = background)
 # Round edges of output GUI
 rect = round_rectangle(100, 105, 500, 225, fill="#d9a5b1")
-# Add some cute emoticons to output GUI
-#img=tk.PhotoImage(file='testImage1.PNG')
-#canvas1.create_image(525, 275, image = img)
-#img2=tk.PhotoImage(file='testImage2.PNG')
-#canvas1.create_image(125, 275, image = img2)
 # Add title to output GUI
 root.title("Joke-inator")
 titleArt=tk.PhotoImage(file='wordArt.PNG')
@@ -159,11 +154,12 @@ titleArt=titleArt.subsample(2,2)
 canvas1.create_image(300, 55, image = titleArt)
 # Add final equation of model to output GUI
 # Intercept of equation
-print_intercept = ('Model Intercept: ', model.intercept_) # sklearn function to derive intercept
-canvas1.create_text(300, 360, fill="white", font=('futura'),text=print_intercept, justify='center')
+print_intercept = 'Model Intercept: '+str(round(model.intercept_, 4)) # sklearn function to derive intercept
+canvas1.create_text(300, 360, fill="white", font=('futura', 10),text=print_intercept, justify='center')
 # Coefficients of equation
-print_coefs = ('Coefficients: ', model.coef_) # sklearn function to derive intercept
-canvas1.create_text(300, 380, fill="white", font=('futura'),text=print_coefs, justify='center')
+coefs_rounded = [round(num, 4) for num in list(model.coef_)]
+print_coefs = 'Coefficients: '+ str(coefs_rounded) # sklearn function to derive intercept
+canvas1.create_text(300, 380, fill="white", font=('futura', 10),text=print_coefs, justify='center')
 # Create entry box to collect input joke
 # First ind variable
 canvas1.create_text(300, 130, fill="white",font=('futura', 22), text='Enter Your Joke: ')
