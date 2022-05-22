@@ -1,5 +1,6 @@
 # data handling
 import os
+from turtle import color
 from matplotlib.ft2font import BOLD
 import pandas as pd
 from regex import E
@@ -13,6 +14,31 @@ from sklearn.metrics import mean_squared_error
 # GUI
 import tkinter as tk
 
+
+def round_rectangle(x1, y1, x2, y2, radius=25, **kwargs):
+        
+    points = [x1+radius, y1,
+              x1+radius, y1,
+              x2-radius, y1,
+              x2-radius, y1,
+              x2, y1,
+              x2, y1+radius,
+              x2, y1+radius,
+              x2, y2-radius,
+              x2, y2-radius,
+              x2, y2,
+              x2-radius, y2,
+              x2-radius, y2,
+              x1+radius, y2,
+              x1+radius, y2,
+              x1, y2,
+              x1, y2-radius,
+              x1, y2-radius,
+              x1, y1+radius,
+              x1, y1+radius,
+              x1, y1]
+
+    return canvas1.create_polygon(points, **kwargs, smooth=True)
 
 # Path to prev dir contains this file
 dir = os.path.abspath(os.path.dirname(__file__))
@@ -89,36 +115,13 @@ print('Predicted Stock Index Price: \n', model.predict([[New_Interest_Rate, New_
 ## GUI
 root= tk.Tk()
 canvas1 = tk.Canvas(root, width = 600, height = 400)
-# root.resizable(False, False)
+root.resizable(False, False)
 canvas1.pack()
 
-# taken from stack overflow for rounded corners...
-def round_rectangle(x1, y1, x2, y2, radius=25, **kwargs):
-        
-    points = [x1+radius, y1,
-              x1+radius, y1,
-              x2-radius, y1,
-              x2-radius, y1,
-              x2, y1,
-              x2, y1+radius,
-              x2, y1+radius,
-              x2, y2-radius,
-              x2, y2-radius,
-              x2, y2,
-              x2-radius, y2,
-              x2-radius, y2,
-              x1+radius, y2,
-              x1+radius, y2,
-              x1, y2,
-              x1, y2-radius,
-              x1, y2-radius,
-              x1, y1+radius,
-              x1, y1+radius,
-              x1, y1]
+background=tk.PhotoImage(file='gradient.PNG')
+canvas1.create_image(300, 200, image = background)
 
-    return canvas1.create_polygon(points, **kwargs, smooth=True)
-
-rect = round_rectangle(200, 30, 400, 105, fill="#FFA1A1")
+rect = round_rectangle(200, 30, 400, 105, fill="#ecc1cb")
 
 
 img=tk.PhotoImage(file='testImage1.PNG')
@@ -127,33 +130,32 @@ img2=tk.PhotoImage(file='testImage2.PNG')
 canvas1.create_image(125, 250, image = img2)
 
 root.title("Joke-inator")
-labelTitle = tk.Label(root, font=('Klee', 24), text='Joke-inator!')
-canvas1.create_window(300, 45, window=labelTitle)
-labelTitle = tk.Label(root, font=('Klee', 14), text="Subtitle")
-canvas1.create_window(300, 80, width=200, window=labelTitle)
+canvas1.create_text(300, 45, fill="white", font=('Impact', 24), text='Joke-inator!')
+canvas1.create_text(300, 80, fill="white", font=('Impact', 14), text="Subtitle")
 
 
 # Final equation of model
 # intercept
 print_intercept = ('Model Intercept: ', model.intercept_) # sklearn function to derive intercept
-interceptWindow = tk.Label(root, text=print_intercept, justify='center')
-canvas1.create_window(300, 270, window=interceptWindow)
+#interceptWindow = tk.Label(root, text=print_intercept, justify='center')
+#canvas1.create_window(300, 270, window=interceptWindow)
+canvas1.create_text(300, 270, fill="white", text=print_intercept, justify='center')
 # coefficients
 print_coefs = ('Coefficients: ', model.coef_) # sklearn function to derive intercept
-coefsWindow = tk.Label(root, text=print_coefs, justify='center')
-canvas1.create_window(300, 290, window=coefsWindow)
+#coefsWindow = tk.Label(root, text=print_coefs, justify='center')
+#canvas1.create_window(300, 290, window=coefsWindow)
+canvas1.create_text(300, 290, fill="white", text=print_coefs, justify='center')
 
 # Create entry boxes
 # First ind variable
-label1 = tk.Label(root, anchor=tk.E, font=('futura'), text='Type Interest Rate: ')
-canvas1.create_window(175, 130, width=200, window=label1)
-entry1 = tk.Entry(root) # create 1st entry box
+canvas1.create_text(270,130, anchor=tk.E, width=200, fill="white", justify='right',font=('futura'), text='Type Interest Rate: ')
+entry1 = tk.Entry(root,bd=0) # create 1st entry box
 canvas1.create_window(370, 130, window=entry1)
+
 # Second ind variable
-label2 = tk.Label(root, anchor=tk.E, font=('futura'), text='Type Unemployment Rate: ')
-canvas1.create_window(175, 150, width=200, window=label2)
-entry2 = tk.Entry(root)  # create 2nd entry box
-canvas1.create_window(370, 150, window=entry2)
+canvas1.create_text(270,155, anchor=tk.E, width=200, fill="white", justify='right',font=('futura'), text='Type Unemployment Rate: ')
+entry2 = tk.Entry(root,bd=0)  # create 2nd entry box
+canvas1.create_window(370, 155, window=entry2)
 
 def values():
     # first input variable from GUI
@@ -164,12 +166,13 @@ def values():
     New_Unemployment_Rate = float(entry2.get())
 
     y_predicted = ('Predicted Stock Index Price: ', model.predict([[New_Interest_Rate, New_Unemployment_Rate]]))
-    predicted_label = tk.Label(root, text=y_predicted, bg='orange')
-    canvas1.create_window(300, 330, window=predicted_label)
+    #predicted_label = tk.Label(root, text=y_predicted, bg='orange')
+    #canvas1.create_window(300, 330, window=predicted_label)
+    canvas1.create_text(300,350, fill="white", text=y_predicted)
 
 # button inputs datapoint to model and displays output
-model_output_button = tk.Button(root, text='Predict Stock Index Price', command=values,bg='orange')
-canvas1.create_window(300, 180, window=model_output_button)
+model_output_button = tk.Button(root, text='Predict Stock Index Price', bd=0,command=values)
+canvas1.create_window(300, 200, window=model_output_button)
 # Continue looping over script with GUI input
 root.mainloop()
 
