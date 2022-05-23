@@ -28,7 +28,7 @@ Funny Rating
 """
 
 ## PARSING FUNCTIONS ##
-# returns the number of characterss in the joke
+# returns the number of characters in the joke
 def getNumChars(joke):
     return len(joke)
 
@@ -106,6 +106,10 @@ data_file_address = os.path.join(dir, "Responses.csv")
 # -> open slang_dict.txt file with this directory
 slang_file_address = os.path.join(dir, "slang_dict.txt")
 slang_file = open(slang_file_address, 'r')
+# -> open gradient2.PNG file with this directory
+gradient_address = os.path.join(dir, "Pictures/gradient2.PNG")
+# -> open wordArt.PNG file with this directory
+wordArt_address = os.path.join(dir, "Pictures/wordArt.PNG")
 
 ## READ AND DEFINE DATA VARIABLES
 df = pd.read_csv(data_file_address)
@@ -142,14 +146,14 @@ canvas1 = tk.Canvas(root, width = 600, height = 400)
 root.resizable(False, False)
 canvas1.pack()
 # Size and background color of output GUI
-background=tk.PhotoImage(file='gradient2.PNG')
+background=tk.PhotoImage(file=gradient_address)
 background=background.subsample(2,2)
 canvas1.create_image(300, 200, image = background)
 # Round edges of output GUI
 rect = round_rectangle(100, 105, 500, 225, fill="#d9a5b1")
 # Add title to output GUI
 root.title("Joke-inator")
-titleArt=tk.PhotoImage(file='wordArt.PNG')
+titleArt=tk.PhotoImage(file=wordArt_address)
 titleArt=titleArt.subsample(2,2)
 canvas1.create_image(300, 55, image = titleArt)
 # Add final equation of model to output GUI
